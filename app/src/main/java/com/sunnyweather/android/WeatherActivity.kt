@@ -50,8 +50,18 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_LONG).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            swipeRefresh.isRefreshing = false
         })
-        viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        refeshWeather()
+        swipeRefresh.setOnRefreshListener {
+            refeshWeather()
+        }
+    }
+
+    private fun refeshWeather(){
+        viewModel.refreshWeather(viewModel.locationLng,viewModel.locationLat)
+        swipeRefresh.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather) {
